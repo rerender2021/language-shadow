@@ -1,6 +1,6 @@
 {
   "name": "language-shadow",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "A simple ocr translator powered by avernakis react.",
   "main": "dist/_/_/app.js",
   "private": "true",
