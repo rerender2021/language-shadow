@@ -19,7 +19,8 @@
 
 演示视频见:
 
-- [发布 文影 (Language Shadow) 1.0.0](https://rerender2021.github.io/blog/language-shadow-1.0.0/)
+-   [发布 文影 (Language Shadow) 1.0.0](https://rerender2021.github.io/blog/language-shadow-1.0.0/)
+
 # 安装
 
 -   下载文影可执行文件: https://github.com/rerender2021/language-shadow/releases/tag/1.0.0
@@ -35,7 +36,11 @@
 
 ```
 - nlp-server
+    - NLP-API.exe
+    - ...
 - ocr-server
+    - PaddleocrAPI.exe
+    - ...
 - language-shadow.exe
 ```
 
