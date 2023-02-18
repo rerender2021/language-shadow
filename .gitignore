@@ -2,3 +2,8 @@ node_modules
 build
 bin
 # .pkg-cache
+dist
+/*.traineddata
+
+ocr-server
+nlp-server
