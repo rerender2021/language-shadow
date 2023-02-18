@@ -4,7 +4,7 @@
 
 <div align="center">
 
-[![build](https://github.com/rerender2021/ocr-2/actions/workflows/build.yml/badge.svg?branch=main&event=push)](https://github.com/rerender2021/ocr-2/actions/workflows/build.yml) [![pack](https://github.com/rerender2021/ocr-2/actions/workflows/pack.yml/badge.svg?branch=main&event=push)](https://github.com/rerender2021/ocr-2/actions/workflows/pack.yml)
+[![build](https://github.com/rerender2021/language-shadow/actions/workflows/build.yml/badge.svg?branch=main&event=push)](https://github.com/rerender2021/language-shadow/actions/workflows/build.yml) [![pack](https://github.com/rerender2021/language-shadow/actions/workflows/pack.yml/badge.svg?branch=main&event=push)](https://github.com/rerender2021/language-shadow/actions/workflows/pack.yml)
 
  </div>
  
