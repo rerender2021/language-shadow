@@ -10,7 +10,10 @@
  
 # 简介
 
-文影 (Language Shadow) 是一个简单的翻译器，原理是：使用 OCR 识别指定区域，获得文字用于翻译。目前支持离线情况下，英文翻译成中文。
+文影 (Language Shadow) 是一个简单的翻译器，原理：
+
+-   使用 OCR 识别指定区域，获得文字用于翻译。目前支持离线情况下，英文翻译成中文。
+-   GUI 部分则是使用 [Ave React](https://qber-soft.github.io/Ave-React-Docs/) 开发的。
 
 ![language-shadow-usage](./docs/images/language-shadow-usage.png)
 
