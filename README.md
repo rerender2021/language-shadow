@@ -23,6 +23,12 @@
 
 # 安装
 
+## 运行环境
+
+- 系统：Windows 10
+
+## 步骤
+
 -   下载文影可执行文件: https://github.com/rerender2021/language-shadow/releases/tag/1.0.0
 
 解压缩后得到 `language-shadow.exe`，这是一个 GUI 应用，OCR 和翻译的功能则是由服务器提供的。
