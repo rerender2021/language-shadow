@@ -19,7 +19,8 @@
 
 演示视频见:
 
--   [发布 文影 (Language Shadow) 1.0.0](https://rerender2021.github.io/blog/language-shadow-1.0.0/)
+- [文影：实时英语字幕翻译 - 完全离线、免费且开源](https://www.bilibili.com/video/BV1Cs4y1j7Qb/)
+- [发布 文影 (Language Shadow) 1.0.0](https://rerender2021.github.io/blog/language-shadow-1.0.0/)
 
 # 安装
 
