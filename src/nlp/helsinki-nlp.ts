@@ -59,6 +59,7 @@ export class HelsinkiNlpEngine implements INlpEngine {
 			const result = translated.data.result[0].translation_text;
 			return { text: result };
 		} catch (error) {
+			console.log(`translate failed: ${error.message}`);
 			return { text: "" };
 		}
 	}

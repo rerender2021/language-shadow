@@ -7,8 +7,8 @@ const config: IPackConfig = {
     input: "./dist/_/_/app.js",
     output: "./bin/language-shadow.exe",
     // set DEBUG_PKG=1
-    debug: false, 
-    edit: false
+    debug: true, 
+    edit: true
   },
   resource: {
     icon: "./assets/language-shadow.ico",
