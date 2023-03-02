@@ -3,6 +3,16 @@ import { sleep } from "@nut-tree/nut-js";
 import { getPrimaryMonitor, safe, shadowRelated } from "./common";
 import { onDisplay } from "./display";
 
+export const onReset = safe(async function () {
+	if (!shadowRelated.displayWindow) {
+		return;
+	}
+
+	const rect = shadowRelated.displayWindow.GetRect();
+	shadowRelated.selectedArea.start = rect.Position.Clone();
+	shadowRelated.selectedArea.end = new Vec2(rect.Position.x + rect.Size.x, rect.Position.y + rect.Size.y);
+});
+
 export const onMeasure = safe(async function () {
 	if (!shadowRelated.measureWindow) {
 		console.log("measure window not initialized, init it");
