@@ -64,8 +64,8 @@ export const onMeasure = safe(async function () {
 
 							shadowRelated.selected = container.ControlAdd(moveRectGrid);
 							moveRectGrid.SetVisible(false);
-							shadowRelated.selected.SetPos(new DpiSize_2(DpiSize.FromPixelScaled(shadowRelated.start.x), DpiSize.FromPixelScaled(shadowRelated.start.y)));
-							shadowRelated.selected.SetSize(new DpiSize_2(DpiSize.FromPixelScaled(1), DpiSize.FromPixelScaled(1)));
+							shadowRelated.selected.SetPos(new DpiSize_2(DpiSize.FromPixel(shadowRelated.start.x), DpiSize.FromPixel(shadowRelated.start.y)));
+							shadowRelated.selected.SetSize(new DpiSize_2(DpiSize.FromPixel(1), DpiSize.FromPixel(1)));
 						})
 					);
 
@@ -74,8 +74,8 @@ export const onMeasure = safe(async function () {
 							shadowRelated.end = mp.Position.Clone();
 
 							//
-							shadowRelated.selected.SetPos(new DpiSize_2(DpiSize.FromPixelScaled(0), DpiSize.FromPixelScaled(0)));
-							shadowRelated.selected.SetSize(new DpiSize_2(DpiSize.FromPixelScaled(0), DpiSize.FromPixelScaled(0)));
+							shadowRelated.selected.SetPos(new DpiSize_2(DpiSize.FromPixel(0), DpiSize.FromPixel(0)));
+							shadowRelated.selected.SetSize(new DpiSize_2(DpiSize.FromPixel(0), DpiSize.FromPixel(0)));
 
 							moveRectGrid.SetBackColor(new Vec4(255, 0, 0, 255));
 							container.ControlRemove(moveRectGrid);
@@ -121,8 +121,8 @@ export const onMeasure = safe(async function () {
 								const height = shadowRelated.current.y - shadowRelated.start.y;
 								if (width > 1 && height > 1) {
 									// console.log("draw measure area", x, y, width, height);
-									shadowRelated.selected.SetPos(new DpiSize_2(DpiSize.FromPixelScaled(x), DpiSize.FromPixelScaled(y)));
-									shadowRelated.selected.SetSize(new DpiSize_2(DpiSize.FromPixelScaled(width), DpiSize.FromPixelScaled(height)));
+									shadowRelated.selected.SetPos(new DpiSize_2(DpiSize.FromPixel(x), DpiSize.FromPixel(y)));
+									shadowRelated.selected.SetSize(new DpiSize_2(DpiSize.FromPixel(width), DpiSize.FromPixel(height)));
 								}
 							}
 						})
