@@ -30,7 +30,7 @@ export class PaddleOcrEngine implements IOcrEngine {
 	async init() {
 		console.log("try to init paddle ocr engine");
 		const paddleDir = path.resolve(process.cwd(), "ocr-server");
-		const exePath = path.resolve(paddleDir, "./PaddleocrAPI.exe")
+		const exePath = path.resolve(paddleDir, "./PaddleocrAPI.exe");
 		if (fs.existsSync(paddleDir) && fs.existsSync(exePath)) {
 			return new Promise((resolve, reject) => {
 				console.log("paddleDir exists, start ocr server", paddleDir);
@@ -71,9 +71,14 @@ export class PaddleOcrEngine implements IOcrEngine {
 		const base64 = buffer.toString("base64");
 		let text = "";
 		try {
-			const response = await axios.post("http://localhost:8000/ocr", {
-				image: base64,
-			});
+			const timeout = this.options?.timeout || 3000;
+			const response = await axios.post(
+				"http://localhost:8000/ocr",
+				{
+					image: base64,
+				},
+				{ timeout }
+			);
 			const result = response.data.image as Array<IPaddleOcrItem>;
 			result.forEach((item, index) => {
 				const [box, content] = item;

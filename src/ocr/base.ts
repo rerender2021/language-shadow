@@ -3,6 +3,7 @@ export interface IOcrResult {
 }
 
 export interface IOcrEngineOptions {
+	timeout?: number
 	onRecognize?: OnRecognize;
 	onError?: OnError;
 }
