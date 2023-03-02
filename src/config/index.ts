@@ -4,7 +4,7 @@ import { IOcrEngineOptions } from "../ocr/base";
 
 const defaultConfig = {
 	/** timeout for ocr and translate api call*/
-	timeout: 3000,
+	timeout: 4000,
 };
 
 export function getConfig() {
@@ -27,6 +27,6 @@ export function getConfig() {
 export function getOcrConfig(): IOcrEngineOptions {
 	const config = getConfig();
 	return {
-		timeout: config?.timeout || 3000,
+		timeout: config?.timeout || defaultConfig.timeout,
 	};
 }
