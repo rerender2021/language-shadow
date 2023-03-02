@@ -20,14 +20,14 @@ export const onTranslate = async function (ocrEngine: IOcrEngine, nlpEngine: INl
 			console.log(`ocr end in ${ocrEnd - ocrStart}ms`);
 			if (ocrResult.text !== shadowRelated.prevOcrText) {
 				shadowRelated.prevOcrText = ocrResult.text;
-			}
-
-			if (shadowRelated.prevOcrText !== "") {
-				const translateStart = Date.now();
-				const { text } = await nlpEngine.translate(shadowRelated.prevOcrText);
-				shadowRelated.onUpdateTranslationResult(text);
-				const translateEnd = Date.now();
-				console.log(`translate end in ${translateEnd - translateStart}ms`);
+				
+				if (shadowRelated.prevOcrText !== "") {
+					const translateStart = Date.now();
+					const { text } = await nlpEngine.translate(shadowRelated.prevOcrText);
+					shadowRelated.onUpdateTranslationResult(text);
+					const translateEnd = Date.now();
+					console.log(`translate end in ${translateEnd - translateStart}ms`);
+				}
 			}
 		}
 	} catch (error) {
