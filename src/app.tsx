@@ -35,9 +35,9 @@ export function LanguageShadow() {
 	const onSetTopMost = useCallback<ICheckBoxComponentProps["onCheck"]>((sender) => {
 		const checkValue = sender.GetValue();
 		if (checkValue === CheckValue.Unchecked) {
-			shadowRelated.displayWindow.SetTopMost(false);
+			shadowRelated.displayWindow?.SetTopMost(false);
 		} else if (checkValue === CheckValue.Checked) {
-			shadowRelated.displayWindow.SetTopMost(true);
+			shadowRelated.displayWindow?.SetTopMost(true);
 		}
 	}, []);
 
