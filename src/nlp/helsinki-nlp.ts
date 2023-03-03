@@ -53,12 +53,18 @@ export class HelsinkiNlpEngine implements INlpEngine {
 
 	async translate(text: string): Promise<ITranslateResult> {
 		try {
-			const translated = await axios.post("http://localhost:8100/translate", {
-				text,
-			});
+			const timeout = this.options?.timeout || 3000;
+			const translated = await axios.post(
+				"http://localhost:8100/translate",
+				{
+					text,
+				},
+				{ timeout }
+			);
 			const result = translated.data.result[0].translation_text;
 			return { text: result };
 		} catch (error) {
+			console.log(`translate failed: ${error.message}`);
 			return { text: "" };
 		}
 	}

@@ -6,7 +6,7 @@ import { HelsinkiNlpEngine } from "./nlp";
 import { containerLayout, controlLayout } from "./layout";
 import { iconResource } from "./resource";
 import { onMeasure, onTranslate } from "./shadow";
-import { getOcrConfig } from "./config";
+import { getOcrConfig, getNlpConfig } from "./config";
 
 function onInit(app: App) {
 	const context = getAppContext();
@@ -24,7 +24,9 @@ export function LanguageShadow() {
 	const ocrEngine = useMemo(() => new PaddleOcrEngine({
 		...getOcrConfig()
 	}), []);
-	const nlpEngine = useMemo(() => new HelsinkiNlpEngine({}), []);
+	const nlpEngine = useMemo(() => new HelsinkiNlpEngine({
+		...getNlpConfig()
+	}), []);
 	const onClose = useCallback<IWindowComponentProps["onClose"]>(() => {
 		ocrEngine.destroy();
 		nlpEngine.destroy();

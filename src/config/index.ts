@@ -1,6 +1,7 @@
 import path from "path";
 import fs from "fs";
 import { IOcrEngineOptions } from "../ocr/base";
+import { INlpEngineOptions } from "../nlp/base";
 
 const defaultConfig = {
 	/** timeout for ocr and translate api call*/
@@ -25,6 +26,13 @@ export function getConfig() {
 }
 
 export function getOcrConfig(): IOcrEngineOptions {
+	const config = getConfig();
+	return {
+		timeout: config?.timeout || defaultConfig.timeout,
+	};
+}
+
+export function getNlpConfig(): INlpEngineOptions {
 	const config = getConfig();
 	return {
 		timeout: config?.timeout || defaultConfig.timeout,
