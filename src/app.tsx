@@ -5,7 +5,7 @@ import { PaddleOcrEngine } from "./ocr";
 import { HelsinkiNlpEngine } from "./nlp";
 import { containerLayout, controlLayout } from "./layout";
 import { iconResource } from "./resource";
-import { onMeasure, onTranslate } from "./shadow";
+import { onMeasure, onReset, onTranslate } from "./shadow";
 import { getOcrConfig, getNlpConfig } from "./config";
 
 function onInit(app: App) {
@@ -44,7 +44,10 @@ export function LanguageShadow() {
 			<Grid style={{ layout: containerLayout }}>
 				<Grid style={{ area: containerLayout.areas.control, layout: controlLayout }}>
 					<Grid style={{ area: controlLayout.areas.measure }}>
-						<Button text="选择区域" iconInfo={{ name: "measure", size: 16 }} onClick={onMeasure}></Button>
+						<Button text="选择识别区" iconInfo={{ name: "measure", size: 16 }} onClick={onMeasure}></Button>
+					</Grid>
+					<Grid style={{ area: controlLayout.areas.reset }}>
+						<Button text="重置识别区" onClick={onReset}></Button>
 					</Grid>
 				</Grid>
 			</Grid>
