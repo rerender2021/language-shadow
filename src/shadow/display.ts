@@ -25,6 +25,7 @@ export const onDisplay = safe(async function () {
 				console.log("display window create content callback");
 
 				shadowRelated.displayWindow.SetBackground(false);
+				shadowRelated.displayWindow.SetTopMost(true);
 
 				const frame = shadowRelated.displayWindow.GetFrame();
 				frame.SetCaptionVisible(false);

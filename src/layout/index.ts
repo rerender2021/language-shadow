@@ -8,9 +8,10 @@ export const containerLayout = {
 
 export const controlLayout = {
 	columns: `1`,
-	rows: `16dpx 32dpx 16dpx 32dpx 4dpx 1 32dpx 4dpx 150dpx`,
+	rows: `16dpx 32dpx 16dpx 32dpx 16dpx 32dpx 4dpx 1 32dpx 4dpx 150dpx`,
 	areas: {
 		measure: { row: 1, column: 0 },
 		reset: { row: 3, column: 0 },
+		topmost: { row: 5, column: 0 },
 	},
 };
