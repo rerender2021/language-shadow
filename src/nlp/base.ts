@@ -3,6 +3,7 @@ export interface ITranslateResult {
 }
 
 export interface INlpEngineOptions {
+	timeout: number
 	onTranslate?: OnTranslate;
 	onError?: OnError;
 }
