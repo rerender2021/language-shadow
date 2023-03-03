@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect, useMemo } from "react";
-import { AveRenderer, Grid, Window, getAppContext, IIconResource, IWindowComponentProps, Button } from "ave-react";
-import { App, ThemePredefined_Dark } from "ave-ui";
+import { AveRenderer, Grid, Window, getAppContext, IIconResource, IWindowComponentProps, Button, CheckBox, ICheckBoxComponentProps } from "ave-react";
+import { App, ThemePredefined_Dark, CheckValue } from "ave-ui";
 import { PaddleOcrEngine } from "./ocr";
 import { HelsinkiNlpEngine } from "./nlp";
 import { containerLayout, controlLayout } from "./layout";
 import { iconResource } from "./resource";
-import { onMeasure, onReset, onTranslate } from "./shadow";
+import { onMeasure, onReset, onTranslate, shadowRelated } from "./shadow";
 import { getOcrConfig, getNlpConfig } from "./config";
 
 function onInit(app: App) {
@@ -32,6 +32,15 @@ export function LanguageShadow() {
 		nlpEngine.destroy();
 	}, []);
 
+	const onSetTopMost = useCallback<ICheckBoxComponentProps["onCheck"]>((sender) => {
+		const checkValue = sender.GetValue();
+		if (checkValue === CheckValue.Unchecked) {
+			shadowRelated.displayWindow.SetTopMost(false);
+		} else if (checkValue === CheckValue.Checked) {
+			shadowRelated.displayWindow.SetTopMost(true);
+		}
+	}, []);
+
 	useEffect(() => {
 		initTheme();
 		ocrEngine.init();
@@ -48,6 +57,12 @@ export function LanguageShadow() {
 					</Grid>
 					<Grid style={{ area: controlLayout.areas.reset }}>
 						<Button text="重置识别区" onClick={onReset}></Button>
+					</Grid>
+					<Grid style={{ area: controlLayout.areas.reset }}>
+						<Button text="重置区域" onClick={onReset}></Button>
+					</Grid>
+					<Grid style={{ area: controlLayout.areas.topmost }}>
+						<CheckBox text="字幕置顶" value={CheckValue.Checked} onCheck={onSetTopMost}></CheckBox>
 					</Grid>
 				</Grid>
 			</Grid>
