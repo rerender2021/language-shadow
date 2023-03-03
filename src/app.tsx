@@ -58,9 +58,6 @@ export function LanguageShadow() {
 					<Grid style={{ area: controlLayout.areas.reset }}>
 						<Button text="重置识别区" onClick={onReset}></Button>
 					</Grid>
-					<Grid style={{ area: controlLayout.areas.reset }}>
-						<Button text="重置区域" onClick={onReset}></Button>
-					</Grid>
 					<Grid style={{ area: controlLayout.areas.topmost }}>
 						<CheckBox text="字幕置顶" value={CheckValue.Checked} onCheck={onSetTopMost}></CheckBox>
 					</Grid>
