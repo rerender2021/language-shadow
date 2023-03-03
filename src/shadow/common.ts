@@ -13,6 +13,7 @@ export type ShadowRelatedType = {
 		end: Vec2;
 	};
 	displayWindow: NativeWindow;
+	defaultTopMost: boolean;
 	selectedAreaIsEmpty(): boolean;
 	onUpdateTranslationResult: (text: string) => void;
 };
@@ -29,6 +30,7 @@ export const shadowRelated: ShadowRelatedType = {
 		end: new Vec2(0, 0),
 	},
 	displayWindow: null,
+	defaultTopMost: true,
 	selectedAreaIsEmpty(this: ShadowRelatedType) {
 		return this.selectedArea.start.x === 0 && this.selectedArea.start.y === 0 && this.selectedArea.end.x === 0 && this.selectedArea.end.x === 0;
 	},

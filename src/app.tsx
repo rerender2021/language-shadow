@@ -21,23 +21,38 @@ function initTheme() {
 }
 
 export function LanguageShadow() {
-	const ocrEngine = useMemo(() => new PaddleOcrEngine({
-		...getOcrConfig()
-	}), []);
-	const nlpEngine = useMemo(() => new HelsinkiNlpEngine({
-		...getNlpConfig()
-	}), []);
+	const ocrEngine = useMemo(
+		() =>
+			new PaddleOcrEngine({
+				...getOcrConfig(),
+			}),
+		[]
+	);
+	const nlpEngine = useMemo(
+		() =>
+			new HelsinkiNlpEngine({
+				...getNlpConfig(),
+			}),
+		[]
+	);
 	const onClose = useCallback<IWindowComponentProps["onClose"]>(() => {
 		ocrEngine.destroy();
 		nlpEngine.destroy();
 	}, []);
 
 	const onSetTopMost = useCallback<ICheckBoxComponentProps["onCheck"]>((sender) => {
+		let shouldTopMost = true;
+
 		const checkValue = sender.GetValue();
 		if (checkValue === CheckValue.Unchecked) {
-			shadowRelated.displayWindow?.SetTopMost(false);
+			shouldTopMost = false;
 		} else if (checkValue === CheckValue.Checked) {
-			shadowRelated.displayWindow?.SetTopMost(true);
+			shouldTopMost = true;
+		}
+
+		shadowRelated.displayWindow?.SetTopMost(shouldTopMost);
+		if (!shadowRelated.displayWindow) {
+			shadowRelated.defaultTopMost = shouldTopMost;
 		}
 	}, []);
 
