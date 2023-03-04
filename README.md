@@ -19,50 +19,15 @@
 
 演示视频见:
 
-- [文影：实时英语字幕翻译 - 完全离线、免费且开源](https://www.bilibili.com/video/BV1Cs4y1j7Qb/)
-- [发布 文影 (Language Shadow) 1.0.0](https://rerender2021.github.io/blog/language-shadow-1.0.0/)
+-   [文影：实时英语字幕翻译 - 完全离线、免费且开源](https://www.bilibili.com/video/BV1Cs4y1j7Qb/)
 
-# 安装
+# 使用说明
 
-## 运行环境
+- 软件首页：https://rerender2021.github.io/products/language-shadow/
 
-- 系统：Windows 10
+# 开发者向
 
-## 步骤
-
--   下载文影可执行文件: https://github.com/rerender2021/language-shadow/releases/tag/1.0.0
-
-解压缩后得到 `language-shadow.exe`，这是一个 GUI 应用，OCR 和翻译的功能则是由服务器提供的。
-
-由于是离线使用的，需要额外下载两个服务器，并解压缩和 exe 放在一起：
-
--   OCR 服务器：https://github.com/rerender2021/PaddleocrAPI/releases/tag/1.0.1
--   翻译服务器：https://github.com/rerender2021/NLP-API/releases/tag/1.0.1
-
-下载它们，并解压到 exe 所在目录，确保目录结构如下，这样当 GUI 启动时，它们能被识别，从而自动启动：
-
-```
-- nlp-server
-    - NLP-API.exe
-    - ...
-- ocr-server
-    - PaddleocrAPI.exe
-    - ...
-- language-shadow.exe
-```
-
-双击 `language-shadow.exe` 即可运行。
-
-## 扩展
-
-运行过程中，OCR 和翻译会请求本地接口，因此，不使用以上离线服务器，而是自己起一个服务器对接在线 API，也可正常使用。
-
-相关接口和数据结构约定见代码：
-
--   OCR: [./src/ocr/paddle-ocr.ts](./src/ocr/paddle-ocr.ts)
--   翻译: [./src/nlp/helsinki-nlp.ts](./src/nlp/helsinki-nlp.ts)
-
-# 开发
+## 本地开发
 
 ```bash
 > npm install
@@ -88,7 +53,16 @@
 - package.json
 ```
 
-# 打包
+## 功能扩展
+
+运行过程中，OCR 和翻译会请求本地接口，因此，不使用以上离线服务器，而是自己起一个服务器对接在线 API，也可正常使用。
+
+相关接口和数据结构约定见代码：
+
+-   OCR: [./src/ocr/paddle-ocr.ts](./src/ocr/paddle-ocr.ts)
+-   翻译: [./src/nlp/helsinki-nlp.ts](./src/nlp/helsinki-nlp.ts)
+
+## 打包发布
 
 -   生成 exe
 
@@ -101,3 +75,11 @@
 # 开源协议
 
 [MIT](./LICENSE)
+
+# 赞赏
+
+`:)` 如果此软件值得赞赏，可以请作者看小说，一元足足可看八章呢。
+
+<p align="left">
+    <img width="300" src="https://rerender2021.github.io/assets/donate.jpg">
+</p>
