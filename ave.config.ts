@@ -12,9 +12,9 @@ const config: IPackConfig = {
   },
   resource: {
     icon: "./assets/language-shadow.ico",
-    productVersion: "1.0.0",
+    productVersion: "1.1.0",
     productName: "Language Shadow",
-    fileVersion: "1.0.0",
+    fileVersion: "1.1.0",
     companyName: "QberSoft",
     fileDescription: "A simple ocr translator powered by avernakis react.",
     LegalCopyright: `© ${new Date().getFullYear()} QberSoft Copyright.`,
