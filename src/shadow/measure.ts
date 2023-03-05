@@ -87,8 +87,8 @@ export const onMeasure = safe(async function () {
 							await sleep(100);
 							shadowRelated.measureWindow.SetVisible(false);
 
-							shadowRelated.selectedArea.start = shadowRelated.start.Clone();
-							shadowRelated.selectedArea.end = shadowRelated.end.Clone();
+							shadowRelated.selectedArea.start = new Vec2(Math.min(shadowRelated.start.x, shadowRelated.end.x), Math.min(shadowRelated.start.y, shadowRelated.end.y));
+							shadowRelated.selectedArea.end = new Vec2(Math.max(shadowRelated.start.x, shadowRelated.end.x), Math.max(shadowRelated.start.y, shadowRelated.end.y));
 
 							//
 							shadowRelated.start = null;
@@ -115,10 +115,10 @@ export const onMeasure = safe(async function () {
 							}
 
 							if (shadowRelated.start && shadowRelated.selected) {
-								const x = shadowRelated.start.x;
-								const y = shadowRelated.start.y;
-								const width = shadowRelated.current.x - shadowRelated.start.x;
-								const height = shadowRelated.current.y - shadowRelated.start.y;
+								const x = Math.min(shadowRelated.start.x, shadowRelated.current.x);
+								const y = Math.min(shadowRelated.start.y, shadowRelated.current.y);
+								const width = Math.abs(shadowRelated.current.x - shadowRelated.start.x);
+								const height = Math.abs(shadowRelated.current.y - shadowRelated.start.y);
 								if (width > 1 && height > 1) {
 									// console.log("draw measure area", x, y, width, height);
 									shadowRelated.selected.SetPos(new DpiSize_2(DpiSize.FromPixel(x), DpiSize.FromPixel(y)));
