@@ -6,6 +6,8 @@ import { INlpEngineOptions } from "../nlp/base";
 const defaultConfig = {
 	/** timeout for ocr and translate api call*/
 	timeout: 4000,
+	ocrPort: 8000,
+	nlpPort: 8100
 };
 
 export function getConfig() {
@@ -29,6 +31,7 @@ export function getOcrConfig(): IOcrEngineOptions {
 	const config = getConfig();
 	return {
 		timeout: config?.timeout || defaultConfig.timeout,
+		ocrPort: config?.ocrPort || defaultConfig.ocrPort
 	};
 }
 
@@ -36,5 +39,6 @@ export function getNlpConfig(): INlpEngineOptions {
 	const config = getConfig();
 	return {
 		timeout: config?.timeout || defaultConfig.timeout,
+		nlpPort: config?.nlpPort || defaultConfig.nlpPort
 	};
 }

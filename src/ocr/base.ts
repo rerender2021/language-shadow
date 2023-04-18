@@ -4,6 +4,7 @@ export interface IOcrResult {
 
 export interface IOcrEngineOptions {
 	timeout: number
+	ocrPort: number
 	onRecognize?: OnRecognize;
 	onError?: OnError;
 }
