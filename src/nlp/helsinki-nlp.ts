@@ -23,7 +23,13 @@ export class HelsinkiNlpEngine implements INlpEngine {
 				const nlp = childProcess.spawn(`./nlp-server/NLP-API.exe`, [`--lang-from=en`, `--lang-to=zh`,`--model-dir=.\\model`, `--port=${port}`], { windowsHide: true, detached: false /** hide console */ });
 				this.nlp = nlp;
 				nlp.stdout.on("data", (data) => {
-					console.log(`stdout: ${data}`);
+					const log = data?.toString() ?? "";
+					if(log.endsWith("INFO") || log.endsWith("INFO : ") || log === "\r\n" || log.includes("length:") || log.includes("Request ContentType")) {
+						// ignore them
+					} else {
+						console.log(`stdout: ${log}`);
+					}
+
 					if (data.includes("nlp server has been started")) {
 						console.log("nlp server started");
 						resolve(true);

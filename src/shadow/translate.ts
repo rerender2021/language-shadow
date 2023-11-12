@@ -17,7 +17,7 @@ export const onTranslate = async function (ocrEngine: IOcrEngine, nlpEngine: INl
 			const ocrStart = Date.now();
 			const ocrResult = await ocrEngine.recognize(buffer);
 			const ocrEnd = Date.now();
-			console.log(`ocr end in ${ocrEnd - ocrStart}ms`);
+			// console.log(`ocr end in ${ocrEnd - ocrStart}ms`);
 			if (ocrResult.text !== shadowRelated.prevOcrText) {
 				shadowRelated.prevOcrText = ocrResult.text;
 
@@ -26,7 +26,7 @@ export const onTranslate = async function (ocrEngine: IOcrEngine, nlpEngine: INl
 					const { text } = await nlpEngine.translate(shadowRelated.prevOcrText);
 					shadowRelated.onUpdateTranslationResult(text);
 					const translateEnd = Date.now();
-					console.log(`translate end in ${translateEnd - translateStart}ms`);
+					// console.log(`translate end in ${translateEnd - translateStart}ms`);
 				}
 			}
 		}
@@ -69,7 +69,7 @@ async function getRegionBuffer(region: Region) {
 		const buffer = Buffer.from(ab);
 
 		const end = Date.now();
-		console.log(`get region buffer in ${end - start}ms`);
+		// console.log(`get region buffer in ${end - start}ms`);
 		return buffer;
 	} catch (error) {
 		console.error("get region buffer failed", error);
