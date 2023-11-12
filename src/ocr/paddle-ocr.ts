@@ -35,7 +35,8 @@ export class PaddleOcrEngine implements IOcrEngine {
 			return new Promise((resolve, reject) => {
 				console.log("paddleDir exists, start ocr server", paddleDir);
 
-				const ocr = childProcess.spawn(`./ocr-server/PaddleocrAPI.exe`, [`--lang=en`, `--model-dir=.\\model`], { windowsHide: true, detached: false /** hide console */ });
+				const port = this.options.ocrPort;
+				const ocr = childProcess.spawn(`./ocr-server/PaddleocrAPI.exe`, [`--lang=en`, `--model-dir=.\\model`, `--port=${port}`], { windowsHide: true, detached: false /** hide console */ });
 				this.ocr = ocr;
 				ocr.stdout.on("data", (data) => {
 					console.log(`stdout: ${data}`);
@@ -71,9 +72,10 @@ export class PaddleOcrEngine implements IOcrEngine {
 		const base64 = buffer.toString("base64");
 		let text = "";
 		try {
-			const timeout = this.options?.timeout || 3000;
+			const timeout = this.options.timeout;
+			const port = this.options.ocrPort;
 			const response = await axios.post(
-				"http://localhost:8000/ocr",
+				`http://localhost:${port}/ocr`,
 				{
 					image: base64,
 				},

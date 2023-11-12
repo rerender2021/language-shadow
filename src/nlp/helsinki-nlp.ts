@@ -19,7 +19,8 @@ export class HelsinkiNlpEngine implements INlpEngine {
 			return new Promise((resolve, reject) => {
 				console.log("nlpDir exists, start nlp server", nlpDir);
 
-				const nlp = childProcess.spawn(`./nlp-server/NLP-API.exe`, [`--lang-from=en`, `--lang-to=zh`,`--model-dir=.\\model`], { windowsHide: true, detached: false /** hide console */ });
+				const port = this.options.nlpPort;
+				const nlp = childProcess.spawn(`./nlp-server/NLP-API.exe`, [`--lang-from=en`, `--lang-to=zh`,`--model-dir=.\\model`, `--port=${port}`], { windowsHide: true, detached: false /** hide console */ });
 				this.nlp = nlp;
 				nlp.stdout.on("data", (data) => {
 					console.log(`stdout: ${data}`);
@@ -53,9 +54,10 @@ export class HelsinkiNlpEngine implements INlpEngine {
 
 	async translate(text: string): Promise<ITranslateResult> {
 		try {
-			const timeout = this.options?.timeout || 3000;
+			const timeout = this.options.timeout;
+			const port = this.options.nlpPort;
 			const translated = await axios.post(
-				"http://localhost:8100/translate",
+				`http://localhost:${port}/translate`,
 				{
 					text,
 				},
