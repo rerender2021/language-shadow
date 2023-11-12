@@ -7,20 +7,35 @@ import { INlpEngine, INlpEngineOptions, ITranslateResult } from "./base";
 export class HelsinkiNlpEngine implements INlpEngine {
 	private options: INlpEngineOptions;
 	private nlp: childProcess.ChildProcessWithoutNullStreams;
-
 	constructor(options: INlpEngineOptions) {
 		this.options = options;
 	}
 
+	getNlpPath() {
+		const gpu = path.resolve(process.cwd(), "nlp-gpu-server");
+		if (fs.existsSync(gpu)) {
+			console.log("nlp-gpu-server exists! use it");
+			return { nlpDir: gpu, exePath: path.resolve(gpu, "./NLP-GPU-API.exe") };
+		}
+
+		const cpu = path.resolve(process.cwd(), "nlp-server");
+		if (fs.existsSync(cpu)) {
+			console.log("use nlp-server");
+			return { nlpDir: cpu, exePath: path.resolve(cpu, "./NLP-API.exe") };
+		}
+
+		return { nlpDir: "", exePath: "" };
+	}
+
 	async init() {
 		console.log("try to init nlp engine");
-		const nlpDir = path.resolve(process.cwd(), "nlp-server");
-		if (fs.existsSync(nlpDir)) {
+		const { nlpDir, exePath } = this.getNlpPath();
+		if (nlpDir && exePath) {
 			return new Promise((resolve, reject) => {
 				console.log("nlpDir exists, start nlp server", nlpDir);
 
 				const port = this.options.nlpPort;
-				const nlp = childProcess.spawn(`./nlp-server/NLP-API.exe`, [`--lang-from=en`, `--lang-to=zh`,`--model-dir=.\\model`, `--port=${port}`], { windowsHide: true, detached: false /** hide console */ });
+				const nlp = childProcess.spawn(exePath, [`--lang-from=en`, `--lang-to=zh`, `--model-dir=.\\model`, `--port=${port}`], { windowsHide: true, detached: false /** hide console */ });
 				this.nlp = nlp;
 				nlp.stdout.on("data", (data) => {
 					const log = data?.toString() ?? "";
@@ -29,7 +44,6 @@ export class HelsinkiNlpEngine implements INlpEngine {
 					} else {
 						console.log(`stdout: ${log}`);
 					}
-
 					if (data.includes("nlp server has been started")) {
 						console.log("nlp server started");
 						resolve(true);
@@ -53,6 +67,7 @@ export class HelsinkiNlpEngine implements INlpEngine {
 	async destroy() {
 		if (this.nlp) {
 			console.log("exit nlp server process");
+			this.nlp.kill();
 			process.kill(this.nlp?.pid);
 			process.exit();
 		}
