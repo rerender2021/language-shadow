@@ -44,7 +44,7 @@ export class HelsinkiNlpEngine implements INlpEngine {
 					} else {
 						console.log(`stdout: ${log}`);
 					}
-					if (data.includes("nlp server has been started")) {
+					if (data.includes("has been started")) {
 						console.log("nlp server started");
 						resolve(true);
 					}

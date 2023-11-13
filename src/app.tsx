@@ -1,12 +1,13 @@
-import React, { useCallback, useEffect, useMemo } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { AveRenderer, Grid, Window, getAppContext, IIconResource, IWindowComponentProps, Button, CheckBox, ICheckBoxComponentProps } from "ave-react";
 import { App, ThemePredefined_Dark, CheckValue } from "ave-ui";
 import { PaddleOcrEngine } from "./ocr";
 import { HelsinkiNlpEngine } from "./nlp";
 import { containerLayout, controlLayout } from "./layout";
 import { iconResource } from "./resource";
-import { onMeasure, onReset, onTranslate, shadowRelated } from "./shadow";
-import { getOcrConfig, getNlpConfig } from "./config";
+import { onMeasure, onReset, onTranslate, safe, shadowRelated } from "./shadow";
+import { getOcrConfig, getNlpConfig, NlpConfig } from "./config";
+import axios from "axios";
 
 function onInit(app: App) {
 	const context = getAppContext();
@@ -56,15 +57,33 @@ export function LanguageShadow() {
 		}
 	}, []);
 
+	const [title, setTitle] = useState("Language Shadow");
+
 	useEffect(() => {
 		initTheme();
 		ocrEngine.init();
-		nlpEngine.init();
+		nlpEngine
+			.init()
+			.then(
+				safe(async () => {
+					const port = NlpConfig.nlpPort;
+					const response = await axios.get(`http://localhost:${port}/gpu`);
+					if (response.data.gpu === "True") {
+						console.log("great! use gpu");
+						setTitle("Language Shadow (GPU)");
+					} else {
+						console.log("gpu is not available");
+					}
+				})
+			)
+			.catch((error) => {
+				console.error(error?.message);
+			});
 		onTranslate(ocrEngine, nlpEngine);
 	}, []);
 
 	return (
-		<Window title="Language Shadow" size={{ width: 260, height: 350 }} onInit={onInit} onClose={onClose}>
+		<Window title={title} size={{ width: 260, height: 350 }} onInit={onInit} onClose={onClose}>
 			<Grid style={{ layout: containerLayout }}>
 				<Grid style={{ area: containerLayout.areas.control, layout: controlLayout }}>
 					<Grid style={{ area: controlLayout.areas.measure }}>
