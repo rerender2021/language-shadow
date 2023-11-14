@@ -42,3 +42,5 @@ export function getNlpConfig(): INlpEngineOptions {
 		nlpPort: config?.nlpPort || defaultConfig.nlpPort
 	};
 }
+
+export const NlpConfig: INlpEngineOptions = getNlpConfig();

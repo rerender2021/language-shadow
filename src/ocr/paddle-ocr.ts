@@ -39,7 +39,12 @@ export class PaddleOcrEngine implements IOcrEngine {
 				const ocr = childProcess.spawn(`./ocr-server/PaddleocrAPI.exe`, [`--lang=en`, `--model-dir=.\\model`, `--port=${port}`], { windowsHide: true, detached: false /** hide console */ });
 				this.ocr = ocr;
 				ocr.stdout.on("data", (data) => {
-					console.log(`stdout: ${data}`);
+					const log = data?.toString() ?? "";
+					if(log.endsWith("INFO") || log.endsWith("INFO : ") || log === "\r\n" || log.includes("size:") || log.includes("Request ContentType")) {
+						// ignore them
+					} else {
+						console.log(`stdout: ${log}`);
+					}
 					if (data.includes("PaddleocrAPI has been started")) {
 						console.log("ocr server started");
 						resolve(true);
