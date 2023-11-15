@@ -67,13 +67,6 @@ export const onDisplay = safe(async function () {
 					en.SetText(" ");
 					zh.SetText(" ");
 
-					const fd = shadowRelated.displayWindow.GetTheme().GetFont();
-					fd.Size = 24;
-					const fontDef = new Byo2Font(shadowRelated.displayWindow, fd);
-
-					const textColor = new RichLabelTextColor();
-					textColor.Text.Color = new Vec4(255, 255, 255, 255);
-
 					const subtitle = new NativeGrid(shadowRelated.displayWindow);
 					subtitle.RowAddSlice(...[1]);
 					subtitle.RowAddDpx(...[2]);
@@ -90,6 +83,12 @@ export const onDisplay = safe(async function () {
 					const zhGrid = subtitle.ControlAdd(zh).SetGrid(0, 2).SetMargin(margin);
 					container.ControlAdd(subtitle).SetGrid(0, 0);
 
+					//
+					zhGrid.SetGrid(0, 0, 1, 3);
+					en.SetOpacity(0);
+					zh.SetOpacity(1);
+
+					//
 					shadowRelated.onUpdateTranslationResult = safe((subtitle: ISubtitle) => {
 						en.SetText(subtitle.en || " ");
 						zh.SetText(subtitle.zh || " ");
