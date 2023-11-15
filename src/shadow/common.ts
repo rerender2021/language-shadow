@@ -15,7 +15,7 @@ export type ShadowRelatedType = {
 	displayWindow: NativeWindow;
 	defaultTopMost: boolean;
 	selectedAreaIsEmpty(): boolean;
-	onUpdateTranslationResult: (text: string) => void;
+	onUpdateTranslationResult: (text: ISubtitle) => void;
 };
 
 export const shadowRelated: ShadowRelatedType = {
@@ -56,4 +56,9 @@ export function getPrimaryMonitor() {
 	const monitors = platform.MonitorEnumerate();
 	const primary = monitors.find((each) => each.Primary);
 	return primary;
+}
+
+export interface ISubtitle {
+	zh: string;
+	en: string;
 }

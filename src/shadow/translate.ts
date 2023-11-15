@@ -24,7 +24,7 @@ export const onTranslate = async function (ocrEngine: IOcrEngine, nlpEngine: INl
 				if (shadowRelated.prevOcrText) {
 					const translateStart = Date.now();
 					const { text } = await nlpEngine.translate(shadowRelated.prevOcrText);
-					shadowRelated.onUpdateTranslationResult(text);
+					shadowRelated.onUpdateTranslationResult({ zh: text, en: shadowRelated.prevOcrText });
 					const translateEnd = Date.now();
 					// console.log(`translate end in ${translateEnd - translateStart}ms`);
 				}
