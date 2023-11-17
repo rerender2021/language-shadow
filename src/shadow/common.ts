@@ -16,6 +16,7 @@ export type ShadowRelatedType = {
 	defaultTopMost: boolean;
 	selectedAreaIsEmpty(): boolean;
 	onUpdateTranslationResult: (text: ISubtitle) => void;
+	onUpdateFontSize: (size: number) => void;
 };
 
 export const shadowRelated: ShadowRelatedType = {
@@ -35,6 +36,7 @@ export const shadowRelated: ShadowRelatedType = {
 		return this.selectedArea.start.x === 0 && this.selectedArea.start.y === 0 && this.selectedArea.end.x === 0 && this.selectedArea.end.x === 0;
 	},
 	onUpdateTranslationResult: () => {},
+	onUpdateFontSize: () => {},
 };
 
 globalThis.shadowRelated = shadowRelated;

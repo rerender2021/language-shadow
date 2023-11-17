@@ -46,7 +46,7 @@ export const onDisplay = safe(async function () {
 
 					function createSubtitle() {
 						const fd = shadowRelated.displayWindow.GetTheme().GetFont();
-						fd.Size = 16;
+						fd.Size = 14;
 						const fontDef = new Byo2Font(shadowRelated.displayWindow, fd);
 
 						const textColor = new RichLabelTextColor();
@@ -87,6 +87,17 @@ export const onDisplay = safe(async function () {
 					zhGrid.SetGrid(0, 0, 1, 3);
 					en.SetOpacity(0);
 					zh.SetOpacity(1);
+
+					//
+					shadowRelated.onUpdateFontSize = safe((size: number) => {
+						const fd = shadowRelated.displayWindow.GetTheme().GetFont();
+						fd.Size = size;
+						const fontDef = new Byo2Font(shadowRelated.displayWindow, fd);
+
+						en.FmSetDefaultFont(fontDef);
+						zh.FmSetDefaultFont(fontDef);
+						shadowRelated.displayWindow.Redraw();
+					});
 
 					//
 					shadowRelated.onUpdateTranslationResult = safe((subtitle: ISubtitle) => {

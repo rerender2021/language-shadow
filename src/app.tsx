@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { AveRenderer, Grid, Window, getAppContext, IIconResource, IWindowComponentProps, Button, CheckBox, ICheckBoxComponentProps } from "ave-react";
+import { Label, ScrollBar, AveRenderer, Grid, Window, getAppContext, IIconResource, IWindowComponentProps, Button, CheckBox, ICheckBoxComponentProps, IScrollBarComponentProps } from "ave-react";
 import { App, ThemePredefined_Dark, CheckValue } from "ave-ui";
 import { PaddleOcrEngine } from "./ocr";
 import { HelsinkiNlpEngine } from "./nlp";
@@ -58,7 +58,13 @@ export function LanguageShadow() {
 	}, []);
 
 	const [title, setTitle] = useState("Language Shadow");
-
+	const [fontSize, setFontSize] = useState(14);
+	const onSetFontSize = useCallback<IScrollBarComponentProps["onScrolling"]>((sender) => {
+		const fontSize = sender.GetValue();
+		shadowRelated.onUpdateFontSize(fontSize);
+		setFontSize(fontSize);
+	}, []);
+	
 	useEffect(() => {
 		initTheme();
 		ocrEngine.init();
@@ -94,6 +100,15 @@ export function LanguageShadow() {
 					</Grid>
 					<Grid style={{ area: controlLayout.areas.topmost }}>
 						<CheckBox text="字幕置顶" value={CheckValue.Checked} onCheck={onSetTopMost}></CheckBox>
+					</Grid>
+					<Grid style={{ area: controlLayout.areas.fontSizeLabel }}>
+						<Label text="字体大小"></Label>
+					</Grid>
+					<Grid style={{ area: controlLayout.areas.fontSize, margin: "10dpx 0 10dpx 0" }}>
+						<ScrollBar min={10} max={50} value={14} /** default value */ onScrolling={onSetFontSize}></ScrollBar>
+					</Grid>
+					<Grid style={{ area: controlLayout.areas.fontSizeValue }}>
+						<Label text={`${fontSize}`}></Label>
 					</Grid>
 				</Grid>
 			</Grid>
