@@ -8,6 +8,7 @@ import { iconResource } from "./resource";
 import { onMeasure, onReset, onTranslate, safe, shadowRelated } from "./shadow";
 import { getOcrConfig, getNlpConfig, NlpConfig } from "./config";
 import axios from "axios";
+import { emitFlushEvent, shutdown, startLanguageShadowWebUI } from "./server";
 
 function onInit(app: App) {
 	const context = getAppContext();
@@ -39,6 +40,9 @@ export function LanguageShadow() {
 	const onClose = useCallback<IWindowComponentProps["onClose"]>(() => {
 		ocrEngine.destroy();
 		nlpEngine.destroy();
+
+		emitFlushEvent();
+		shutdown();
 	}, []);
 
 	const onSetTopMost = useCallback<ICheckBoxComponentProps["onCheck"]>((sender) => {
@@ -117,3 +121,5 @@ export function LanguageShadow() {
 }
 
 AveRenderer.render(<LanguageShadow />);
+
+startLanguageShadowWebUI();

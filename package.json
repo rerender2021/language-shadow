@@ -36,6 +36,8 @@
     "@nut-tree/nut-js": "^3.0.0",
     "ave-react": "^0.1.4",
     "axios": "^1.3.2",
-    "debounce": "^1.2.1"
+    "debounce": "^1.2.1",
+    "express": "^4.18.2",
+    "socket.io": "^4.7.2"
   }
 }

@@ -7,7 +7,8 @@ const defaultConfig = {
 	/** timeout for ocr and translate api call*/
 	timeout: 4000,
 	ocrPort: 8000,
-	nlpPort: 8100
+	nlpPort: 8100,
+	webUiPort: 8360
 };
 
 export function getConfig() {
@@ -44,3 +45,10 @@ export function getNlpConfig(): INlpEngineOptions {
 }
 
 export const NlpConfig: INlpEngineOptions = getNlpConfig();
+
+export function getWebUiConfig() {
+	const config = getConfig();
+	return {
+		port: config?.webUiPort ?? defaultConfig.webUiPort
+	}
+}

@@ -1,5 +1,6 @@
 import { ISubtitle, safe, shadowRelated } from "./common";
 import { WindowFramePart, DpiMargin, RichLabelBackColor, RichLabelTextColor, Rect, Byo2Font, AlignType, RichLabel as NativeRichLabel, IGridControl, DpiSize_2, DpiSize, CursorType, DockMode, Vec2, Vec4, Grid as NativeGrid, Window as NativeWindow, WindowFlag, WindowCreation, ImageContainerType, ImageData, ImageDimension, Byo2Image, AveImage, Picture as NativePicture, App, ThemePredefined_Dark, StretchMode, AveGetClipboard, CodeEditor as NativeEditor, ResourceSource, Byo2ImageCreation, Byo2ImageDataType, PixFormat } from "ave-ui";
+import { emitSubtitleEvent } from "../server";
 
 export const onDisplay = safe(async function () {
 	if (!shadowRelated.displayWindow) {
@@ -101,6 +102,7 @@ export const onDisplay = safe(async function () {
 
 					//
 					shadowRelated.onUpdateTranslationResult = safe((subtitle: ISubtitle) => {
+						emitSubtitleEvent(subtitle);
 						en.SetText(subtitle.en || " ");
 						zh.SetText(subtitle.zh || " ");
 						console.log("update subtitle", { subtitle });
