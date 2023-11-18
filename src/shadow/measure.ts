@@ -2,12 +2,14 @@ import { DpiSize_2, DpiSize, CursorType, DockMode, Vec2, Vec4, Grid as NativeGri
 import { sleep } from "@nut-tree/nut-js";
 import { getPrimaryMonitor, safe, shadowRelated } from "./common";
 import { onDisplay } from "./display";
+import { emitFlushEvent } from "../server";
 
 export const onReset = safe(async function () {
 	if (!shadowRelated.displayWindow) {
 		return;
 	}
 
+	emitFlushEvent();
 	const rect = shadowRelated.displayWindow.GetRect();
 	shadowRelated.selectedArea.start = rect.Position.Clone();
 	shadowRelated.selectedArea.end = new Vec2(rect.Position.x + rect.Size.x, rect.Position.y + rect.Size.y);
