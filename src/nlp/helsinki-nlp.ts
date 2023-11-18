@@ -3,6 +3,7 @@ import path from "path";
 import axios from "axios";
 import childProcess from "child_process";
 import { INlpEngine, INlpEngineOptions, ITranslateResult } from "./base";
+import { inspectLog, ErrorEvent } from "../server";
 
 export class HelsinkiNlpEngine implements INlpEngine {
 	private options: INlpEngineOptions;
@@ -39,6 +40,10 @@ export class HelsinkiNlpEngine implements INlpEngine {
 				this.nlp = nlp;
 				nlp.stdout.on("data", (data) => {
 					const log = data?.toString() ?? "";
+					const isError = inspectLog(log);
+					if(isError) {
+						reject(false);
+					}
 					if(log.endsWith("INFO") || log.endsWith("INFO : ") || log === "\r\n" || log.includes("length:") || log.includes("Request ContentType")) {
 						// ignore them
 					} else {
@@ -51,6 +56,10 @@ export class HelsinkiNlpEngine implements INlpEngine {
 				});
 
 				nlp.stderr.on("data", (data) => {
+					const isError = inspectLog(data?.toString());
+					if(isError) {
+						reject(false);
+					}
 					console.error(`stderr: ${data}`);
 				});
 
@@ -60,7 +69,8 @@ export class HelsinkiNlpEngine implements INlpEngine {
 				});
 			});
 		} else {
-			console.log("nlp server not exist");
+			console.log(ErrorEvent.NlpServerNotExist.log);
+			inspectLog(ErrorEvent.NlpServerNotExist.log);
 		}
 	}
 

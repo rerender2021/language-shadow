@@ -3,6 +3,7 @@ import path from "path";
 import fs from "fs";
 import childProcess from "child_process";
 import { IOcrEngine, IOcrEngineOptions, IOcrResult } from "./base";
+import { inspectLog, ErrorEvent } from "../server";
 
 export interface IPaddleOcrResult extends IOcrResult {
 	detail: Array<IPaddleOcrItem>;
@@ -40,6 +41,11 @@ export class PaddleOcrEngine implements IOcrEngine {
 				this.ocr = ocr;
 				ocr.stdout.on("data", (data) => {
 					const log = data?.toString() ?? "";
+					const isError = inspectLog(log);
+					if(isError) {
+						reject(false);
+					}
+					
 					if(log.endsWith("INFO") || log.endsWith("INFO : ") || log === "\r\n" || log.includes("size:") || log.includes("Request ContentType")) {
 						// ignore them
 					} else {
@@ -52,6 +58,10 @@ export class PaddleOcrEngine implements IOcrEngine {
 				});
 
 				ocr.stderr.on("data", (data) => {
+					const isError = inspectLog(data?.toString());
+					if(isError) {
+						reject(false);
+					}
 					console.error(`stderr: ${data}`);
 				});
 
@@ -61,7 +71,8 @@ export class PaddleOcrEngine implements IOcrEngine {
 				});
 			});
 		} else {
-			console.log("paddle ocr server not exist");
+			console.log(ErrorEvent.OcrServerNotExist.log);
+			inspectLog(ErrorEvent.OcrServerNotExist.log);
 		}
 	}
 

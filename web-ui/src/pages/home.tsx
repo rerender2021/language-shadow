@@ -70,7 +70,7 @@ export default function Home() {
       update(`${prevSubtitle?.en}\n${prevSubtitle?.zh}`);
     });
 
-    socket.on("lanaguage-shadow-error", (value: ErrorEventType) => {
+    socket.on("language-shadow-error", (value: ErrorEventType) => {
       console.error("lanaguage shadow error", { value });
       refErrors.current = [...refErrors.current, value];
       setUpdateKey(Date.now());

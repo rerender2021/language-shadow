@@ -30,21 +30,16 @@ export const ErrorEvent = {
 	NlpServerNotExist: {
 		log: "[ERROR] nlp server not exist",
 		message: "没有找到 NLP 服务器, 请检查目录结构。",
-		link: "https://rerender2021.github.io/products/echo/#%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85",
+		link: "https://rerender2021.github.io/products/language-shadow/#%E5%AE%89%E8%A3%85",
 	},
-	AsrServerNotExist: {
-		log: "[ERROR] asr server not exist",
-		message: "没有找到语音服务器, 请检查目录结构。",
-		link: "https://rerender2021.github.io/products/echo/#%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85",
+	OcrServerNotExist: {
+		log: "[ERROR] ocr server not exist",
+		message: "没有找到 OCR 服务器, 请检查目录结构。",
+		link: "https://rerender2021.github.io/products/language-shadow/#%E5%AE%89%E8%A3%85",
 	},
 	ChineseInPath: {
 		log: "[ERROR] chinese found in path",
 		message: "请检查软件路径是否包含中文, 若包含, 需修改为英文。",
-	},
-	AsrNotWork: {
-		log: "[ERROR] asr config error",
-		message: "语音服务器启动失败, 请检查立体声混音相关配置。",
-		link: "https://rerender2021.github.io/products/echo/#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98",
 	},
 	PortUsed: {
 		log: "[ERROR] port used",
@@ -59,19 +54,13 @@ export function inspectLog(log: string) {
 	if (log === ErrorEvent.NlpServerNotExist.log) {
 		emitErorrEvent(ErrorEvent.NlpServerNotExist);
 		return true;
-	} else if (log === ErrorEvent.AsrServerNotExist.log) {
-		emitErorrEvent(ErrorEvent.AsrServerNotExist);
+	} else if (log === ErrorEvent.OcrServerNotExist.log) {
+		emitErorrEvent(ErrorEvent.OcrServerNotExist);
 		return true;
 	} else if (log.includes("WinError 1225") || log.includes("character maps to <undefined>")) {
 		emitErorrEvent(ErrorEvent.ChineseInPath);
 		return true;
-	} else if (log.includes("websockets.server:connection open")) {
-		const asrDone = logHistory.find((each) => each.includes("VoskAPI") && each.includes("Done"));
-		if (!asrDone) {
-			emitErorrEvent(ErrorEvent.AsrNotWork);
-			return true;
-		}
-	} else if (log.includes("error while attempting to bind on address")) {
+	}else if (log.includes("error while attempting to bind on address")) {
 		const port = log?.split("127.0.0.1', ")?.[1]?.substring(0, 4);
 		if (port) {
 			emitErorrEvent({
