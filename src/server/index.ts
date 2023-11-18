@@ -30,12 +30,12 @@ export const ErrorEvent = {
 	NlpServerNotExist: {
 		log: "[ERROR] nlp server not exist",
 		message: "没有找到 NLP 服务器, 请检查目录结构。",
-		link: "https://rerender2021.github.io/products/echo/#%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85",
+		link: "https://rerender2021.github.io/products/language-shadow/#%E5%AE%89%E8%A3%85",
 	},
-	AsrServerNotExist: {
-		log: "[ERROR] asr server not exist",
-		message: "没有找到语音服务器, 请检查目录结构。",
-		link: "https://rerender2021.github.io/products/echo/#%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85",
+	OcrServerNotExist: {
+		log: "[ERROR] ocr server not exist",
+		message: "没有找到 OCR 服务器, 请检查目录结构。",
+		link: "https://rerender2021.github.io/products/language-shadow/#%E5%AE%89%E8%A3%85",
 	},
 	ChineseInPath: {
 		log: "[ERROR] chinese found in path",
@@ -54,8 +54,8 @@ export function inspectLog(log: string) {
 	if (log === ErrorEvent.NlpServerNotExist.log) {
 		emitErorrEvent(ErrorEvent.NlpServerNotExist);
 		return true;
-	} else if (log === ErrorEvent.AsrServerNotExist.log) {
-		emitErorrEvent(ErrorEvent.AsrServerNotExist);
+	} else if (log === ErrorEvent.OcrServerNotExist.log) {
+		emitErorrEvent(ErrorEvent.OcrServerNotExist);
 		return true;
 	} else if (log.includes("WinError 1225") || log.includes("character maps to <undefined>")) {
 		emitErorrEvent(ErrorEvent.ChineseInPath);

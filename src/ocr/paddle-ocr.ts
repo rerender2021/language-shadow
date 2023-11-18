@@ -3,7 +3,7 @@ import path from "path";
 import fs from "fs";
 import childProcess from "child_process";
 import { IOcrEngine, IOcrEngineOptions, IOcrResult } from "./base";
-import { inspectLog } from "../server";
+import { inspectLog, ErrorEvent } from "../server";
 
 export interface IPaddleOcrResult extends IOcrResult {
 	detail: Array<IPaddleOcrItem>;
@@ -71,7 +71,8 @@ export class PaddleOcrEngine implements IOcrEngine {
 				});
 			});
 		} else {
-			console.log("paddle ocr server not exist");
+			console.log(ErrorEvent.OcrServerNotExist.log);
+			inspectLog(ErrorEvent.OcrServerNotExist.log);
 		}
 	}
 

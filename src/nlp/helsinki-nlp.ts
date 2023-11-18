@@ -3,7 +3,7 @@ import path from "path";
 import axios from "axios";
 import childProcess from "child_process";
 import { INlpEngine, INlpEngineOptions, ITranslateResult } from "./base";
-import { inspectLog } from "../server";
+import { inspectLog, ErrorEvent } from "../server";
 
 export class HelsinkiNlpEngine implements INlpEngine {
 	private options: INlpEngineOptions;
@@ -69,7 +69,8 @@ export class HelsinkiNlpEngine implements INlpEngine {
 				});
 			});
 		} else {
-			console.log("nlp server not exist");
+			console.log(ErrorEvent.NlpServerNotExist.log);
+			inspectLog(ErrorEvent.NlpServerNotExist.log);
 		}
 	}
 
