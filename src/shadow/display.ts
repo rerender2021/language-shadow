@@ -1,8 +1,8 @@
-import { ISubtitle, safe, shadowRelated } from "./common";
+import { ISubtitle, safe, safeAsync, shadowRelated } from "./common";
 import { WindowFramePart, DpiMargin, RichLabelBackColor, RichLabelTextColor, Rect, Byo2Font, AlignType, RichLabel as NativeRichLabel, IGridControl, DpiSize_2, DpiSize, CursorType, DockMode, Vec2, Vec4, Grid as NativeGrid, Window as NativeWindow, WindowFlag, WindowCreation, ImageContainerType, ImageData, ImageDimension, Byo2Image, AveImage, Picture as NativePicture, App, ThemePredefined_Dark, StretchMode, AveGetClipboard, CodeEditor as NativeEditor, ResourceSource, Byo2ImageCreation, Byo2ImageDataType, PixFormat } from "ave-ui";
 import { emitSubtitleEvent } from "../server";
 
-export const onDisplay = safe(async function () {
+export const onDisplay = safeAsync(async function () {
 	if (!shadowRelated.displayWindow) {
 		console.log("display window not initialized, init it");
 		const cp = new WindowCreation();

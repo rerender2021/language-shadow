@@ -46,7 +46,17 @@ export function safe(callback: Function) {
 		try {
 			return callback(...args);
 		} catch (error) {
-			console.error(error);
+			console.error(error?.message);
+		}
+	};
+}
+
+export function safeAsync(callback: Function) {
+	return async (...args: any[]) => {
+		try {
+			return await callback(...args);
+		} catch (error) {
+			console.error(error?.message);
 		}
 	};
 }
