@@ -1,14 +1,14 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Label, ScrollBar, AveRenderer, Grid, Window, getAppContext, IIconResource, IWindowComponentProps, Button, CheckBox, ICheckBoxComponentProps, IScrollBarComponentProps } from "ave-react";
+import { Label, ScrollBar, AveRenderer, Grid, Window, getAppContext, IIconResource, IWindowComponentProps, Button, CheckBox, ICheckBoxComponentProps, IScrollBarComponentProps, Hyperlink } from "ave-react";
 import { App, ThemePredefined_Dark, CheckValue } from "ave-ui";
 import { PaddleOcrEngine } from "./ocr";
 import { HelsinkiNlpEngine } from "./nlp";
 import { containerLayout, controlLayout } from "./layout";
 import { iconResource } from "./resource";
-import { onMeasure, onReset, onTranslate, safe, shadowRelated } from "./shadow";
-import { getOcrConfig, getNlpConfig, NlpConfig } from "./config";
+import { onMeasure, onReset, onTranslate, safeAsync, shadowRelated } from "./shadow";
+import { getOcrConfig, getNlpConfig, NlpConfig, getWebUiConfig } from "./config";
 import axios from "axios";
-import { emitFlushEvent, shutdown, startLanguageShadowWebUI } from "./server";
+import { emitFlushEvent, isInitError, shutdown, startLanguageShadowWebUI } from "./server";
 
 function onInit(app: App) {
 	const context = getAppContext();
@@ -68,52 +68,102 @@ export function LanguageShadow() {
 		shadowRelated.onUpdateFontSize(fontSize);
 		setFontSize(fontSize);
 	}, []);
-	
+	const [ocrReady, setOcrReady] = useState(false);
+	const [nlpReady, setNlpReady] = useState(false);
+
+	const [ocrError, setOcrError] = useState(false);
+	const [nlpError, setNlpError] = useState(false);
+
 	useEffect(() => {
 		initTheme();
-		ocrEngine.init();
+		ocrEngine
+			.init()
+			.then(() => {
+				setOcrReady(true);
+				setOcrError(isInitError());
+				console.log("ocr init succeed");
+			})
+			.catch((error) => {
+				setOcrReady(false);
+				setOcrError(true);
+				console.log("ocr init failed");
+				console.error(error?.message);
+			});
 		nlpEngine
 			.init()
-			.then(
-				safe(async () => {
-					const port = NlpConfig.nlpPort;
-					const response = await axios.get(`http://localhost:${port}/gpu`);
-					if (response.data.gpu === "True") {
-						console.log("great! use gpu");
-						setTitle("Language Shadow (GPU)");
-					} else {
+			.then(() => {
+				setNlpReady(true);
+				setNlpError(isInitError());
+				console.log("nlp init succeed");
+
+				const port = NlpConfig.nlpPort;
+				axios
+					.get(`http://localhost:${port}/gpu`)
+					.then((response) => {
+						if (response.data.gpu === "True") {
+							console.log("great! use gpu");
+							setTitle("Language Shadow (GPU)");
+						} else {
+							console.log("gpu is not available");
+						}
+					})
+					.catch((e) => {
 						console.log("gpu is not available");
-					}
-				})
-			)
+					});
+			})
 			.catch((error) => {
+				setNlpReady(false);
+				setNlpError(true);
+				console.log("nlp init failed");
 				console.error(error?.message);
 			});
 		onTranslate(ocrEngine, nlpEngine);
 	}, []);
 
+	const isReady = nlpReady && ocrReady;
+	const isError = nlpError || ocrError;
+	const webUiLink = `http://localhost:${getWebUiConfig().port}`;
+	const gotoWebUi = () => {
+		//  https://stackoverflow.com/a/49013356
+		const url = webUiLink;
+		const start = "start";
+		require("child_process").exec(start + " " + url);
+	};
+
 	return (
 		<Window title={title} size={{ width: 260, height: 350 }} onInit={onInit} onClose={onClose}>
 			<Grid style={{ layout: containerLayout }}>
 				<Grid style={{ area: containerLayout.areas.control, layout: controlLayout }}>
-					<Grid style={{ area: controlLayout.areas.measure }}>
-						<Button text="选择识别区" iconInfo={{ name: "measure", size: 16 }} onClick={onMeasure}></Button>
-					</Grid>
-					<Grid style={{ area: controlLayout.areas.reset }}>
-						<Button text="重置识别区" onClick={onReset}></Button>
-					</Grid>
-					<Grid style={{ area: controlLayout.areas.topmost }}>
-						<CheckBox text="字幕置顶" value={CheckValue.Checked} onCheck={onSetTopMost}></CheckBox>
-					</Grid>
-					<Grid style={{ area: controlLayout.areas.fontSizeLabel }}>
-						<Label text="字体大小"></Label>
-					</Grid>
-					<Grid style={{ area: controlLayout.areas.fontSize, margin: "10dpx 0 10dpx 0" }}>
-						<ScrollBar min={10} max={50} value={14} /** default value */ onScrolling={onSetFontSize}></ScrollBar>
-					</Grid>
-					<Grid style={{ area: controlLayout.areas.fontSizeValue }}>
-						<Label text={`${fontSize}`}></Label>
-					</Grid>
+					{isReady && !isError ? (
+						<>
+							<Grid style={{ area: controlLayout.areas.measure }}>
+								<Button text="选择识别区" iconInfo={{ name: "measure", size: 16 }} onClick={onMeasure}></Button>
+							</Grid>
+							<Grid style={{ area: controlLayout.areas.reset }}>
+								<Button text="重置识别区" onClick={onReset}></Button>
+							</Grid>
+							<Grid style={{ area: controlLayout.areas.topmost }}>
+								<CheckBox text="字幕置顶" value={CheckValue.Checked} onCheck={onSetTopMost}></CheckBox>
+							</Grid>
+							<Grid style={{ area: controlLayout.areas.fontSizeLabel }}>
+								<Label text="字体大小"></Label>
+							</Grid>
+							<Grid style={{ area: controlLayout.areas.fontSize, margin: "10dpx 0 10dpx 0" }}>
+								<ScrollBar min={10} max={50} value={14} /** default value */ onScrolling={onSetFontSize}></ScrollBar>
+							</Grid>
+							<Grid style={{ area: controlLayout.areas.fontSizeValue }}>
+								<Label text={`${fontSize}`}></Label>
+							</Grid>
+						</>
+					) : isError ? (
+						<Grid style={{ area: controlLayout.areas.measure }}>
+							<Hyperlink text={`初始化失败, 查看问题: <${webUiLink}/>`} onClick={gotoWebUi} />
+						</Grid>
+					) : (
+						<Grid style={{ area: controlLayout.areas.measure }}>
+							<Label text="初始化中..."></Label>
+						</Grid>
+					)}
 				</Grid>
 			</Grid>
 		</Window>

@@ -1,10 +1,10 @@
 import { DpiSize_2, DpiSize, CursorType, DockMode, Vec2, Vec4, Grid as NativeGrid, Window as NativeWindow, WindowFlag, WindowCreation } from "ave-ui";
 import { sleep } from "@nut-tree/nut-js";
-import { getPrimaryMonitor, safe, shadowRelated } from "./common";
+import { getPrimaryMonitor, safe, safeAsync, shadowRelated } from "./common";
 import { onDisplay } from "./display";
 import { emitFlushEvent } from "../server";
 
-export const onReset = safe(async function () {
+export const onReset = safeAsync(async function () {
 	if (!shadowRelated.displayWindow) {
 		return;
 	}
@@ -15,7 +15,7 @@ export const onReset = safe(async function () {
 	shadowRelated.selectedArea.end = new Vec2(rect.Position.x + rect.Size.x, rect.Position.y + rect.Size.y);
 });
 
-export const onMeasure = safe(async function () {
+export const onMeasure = safeAsync(async function () {
 	if (!shadowRelated.measureWindow) {
 		console.log("measure window not initialized, init it");
 		const cp = new WindowCreation();
@@ -72,7 +72,7 @@ export const onMeasure = safe(async function () {
 					);
 
 					container.OnPointerRelease(
-						safe(async (sender: NativeWindow, mp) => {
+						safeAsync(async (sender: NativeWindow, mp) => {
 							shadowRelated.end = mp.Position.Clone();
 
 							//
