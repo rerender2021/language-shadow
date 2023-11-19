@@ -81,7 +81,7 @@ export function LanguageShadow() {
 			.then(() => {
 				setOcrReady(true);
 				setOcrError(isInitError());
-				console.log("ocr init succeed");
+				console.log("ocr init done");
 			})
 			.catch((error) => {
 				setOcrReady(false);
@@ -94,7 +94,7 @@ export function LanguageShadow() {
 			.then(() => {
 				setNlpReady(true);
 				setNlpError(isInitError());
-				console.log("nlp init succeed");
+				console.log("nlp init done");
 
 				const port = NlpConfig.nlpPort;
 				axios
