@@ -23,7 +23,7 @@ const emitedError = new Set<string>();
 const logHistory: string[] = [];
 
 export function isInitError() {
-	return emitedError.size !== 0;
+	return cachedErrorEvent.length !== 0 || emitedError.size !== 0;
 }
 
 export const ErrorEvent = {
