@@ -48,26 +48,8 @@ export default function Home() {
       }
     };
 
-    let count = Number.MAX_SAFE_INTEGER;
-    let prevSubtitle = { zh: "", en: "" };
-    let timer: any;
     socket.on("subtitle", (value: { zh: string; en: string }) => {
-      const newCount = value?.en?.length ?? 0;
-      const isDecreasing = newCount < count;
-      console.log("check", { isDecreasing, newCount, count });
-      if (isDecreasing && prevSubtitle.en !== value.en) {
-        if (prevSubtitle?.en || prevSubtitle?.zh) {
-          console.log("new subtitle", { value });
-          update(`${prevSubtitle?.en}\n${prevSubtitle?.zh}`);
-          clearTimeout(timer);
-        }
-      }
-      count = newCount;
-      prevSubtitle = value;
-    });
-
-    socket.on("flush", () => {
-      update(`${prevSubtitle?.en}\n${prevSubtitle?.zh}`);
+      update(`${value?.en}\n${value?.zh}`);
     });
 
     socket.on("language-shadow-error", (value: ErrorEventType) => {

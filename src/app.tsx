@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Label, ScrollBar, AveRenderer, Grid, Window, getAppContext, IIconResource, IWindowComponentProps, Button, CheckBox, ICheckBoxComponentProps, IScrollBarComponentProps, Hyperlink } from "ave-react";
+import { Image, Label, ScrollBar, AveRenderer, Grid, Window, getAppContext, IIconResource, IWindowComponentProps, Button, CheckBox, ICheckBoxComponentProps, IScrollBarComponentProps, Hyperlink } from "ave-react";
 import { App, ThemePredefined_Dark, CheckValue } from "ave-ui";
 import { PaddleOcrEngine } from "./ocr";
 import { HelsinkiNlpEngine } from "./nlp";
@@ -9,6 +9,7 @@ import { onMeasure, onReset, onTranslate, safeAsync, shadowRelated } from "./sha
 import { getOcrConfig, getNlpConfig, NlpConfig, getWebUiConfig } from "./config";
 import axios from "axios";
 import { emitFlushEvent, isInitError, shutdown, startLanguageShadowWebUI } from "./server";
+import { assetsPath, runtimeAssetsPath } from "./common";
 
 function onInit(app: App) {
 	const context = getAppContext();
@@ -68,11 +69,35 @@ export function LanguageShadow() {
 		shadowRelated.onUpdateFontSize(fontSize);
 		setFontSize(fontSize);
 	}, []);
+
+	const defaultHomeIconPath = assetsPath("snow.png");
+	const defaultHomeRotateIconPath = assetsPath("snow-rotate.png");
+	const customHomeIconPath = runtimeAssetsPath("./web-ui.png");
+	const customHomeRotateIconPath = runtimeAssetsPath("./web-ui-hover.png");
+	console.log("icon path", {
+		customHomeIconPath,
+		customHomeRotateIconPath
+	});
+	const [imgSrc, setImgSrc] = useState(customHomeIconPath ?? defaultHomeIconPath);
+	const onEnterImage = () => {
+		setImgSrc(customHomeRotateIconPath ?? defaultHomeRotateIconPath);
+	};
+	const onLeaveImage = () => {
+		setImgSrc(customHomeIconPath ?? defaultHomeIconPath);
+	};
+
 	const [ocrReady, setOcrReady] = useState(false);
 	const [nlpReady, setNlpReady] = useState(false);
 
 	const [ocrError, setOcrError] = useState(false);
 	const [nlpError, setNlpError] = useState(false);
+	
+	const gotoWebUi = () => {
+		//  https://stackoverflow.com/a/49013356
+		const url = webUiLink;
+		const start = "start";
+		require("child_process").exec(start + " " + url);
+	};
 
 	useEffect(() => {
 		initTheme();
@@ -123,12 +148,6 @@ export function LanguageShadow() {
 	const isReady = nlpReady && ocrReady;
 	const isError = nlpError || ocrError;
 	const webUiLink = `http://localhost:${getWebUiConfig().port}`;
-	const gotoWebUi = () => {
-		//  https://stackoverflow.com/a/49013356
-		const url = webUiLink;
-		const start = "start";
-		require("child_process").exec(start + " " + url);
-	};
 
 	return (
 		<Window title={title} size={{ width: 260, height: 350 }} onInit={onInit} onClose={onClose}>
@@ -153,6 +172,9 @@ export function LanguageShadow() {
 							</Grid>
 							<Grid style={{ area: controlLayout.areas.fontSizeValue }}>
 								<Label text={`${fontSize}`}></Label>
+							</Grid>
+							<Grid style={{ area: controlLayout.areas.snow }}>
+								<Image src={imgSrc} onPointerPress={gotoWebUi} onPointerEnter={onEnterImage} onPointerLeave={onLeaveImage} />
 							</Grid>
 						</>
 					) : isError ? (

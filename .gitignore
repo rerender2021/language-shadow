@@ -14,3 +14,4 @@ nlp-gpu-server
 nlp-gpu-server-*
 
 /config.json
+*.exe
