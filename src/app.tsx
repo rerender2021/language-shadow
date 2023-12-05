@@ -150,7 +150,7 @@ export function LanguageShadow() {
 	const webUiLink = `http://localhost:${getWebUiConfig().port}`;
 
 	return (
-		<Window title={title} size={{ width: 260, height: 350 }} onInit={onInit} onClose={onClose}>
+		<Window title={title} size={{ width: 300, height: 360 }} onInit={onInit} onClose={onClose}>
 			<Grid style={{ layout: containerLayout }}>
 				<Grid style={{ area: containerLayout.areas.control, layout: controlLayout }}>
 					{isReady && !isError ? (
