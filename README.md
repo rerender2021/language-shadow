@@ -53,6 +53,26 @@
 - package.json
 ```
 
+如需使用GPU：
+
+- GPU翻译服务器：下载链接中的2个压缩分卷并解压缩（文件太大，只能分卷压缩上传）
+  - [NLP-GPU-API 1.0.0](https://github.com/rerender2021/NLP-GPU-API/releases/tag/1.0.0) 
+
+
+下载后，解压到项目下，确保项目目录结构如下：
+
+```
+- nlp-gpu-server
+    - NLP-GPU-API.exe
+    - ...
+- ocr-server
+    - PaddleocrAPI.exe
+    - ...
+- src
+- ...
+- package.json
+```
+
 ## 功能扩展
 
 运行过程中，OCR 和翻译会请求本地接口，因此，不使用以上离线服务器，而是自己起一个服务器对接在线 API，也可正常使用。
