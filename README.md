@@ -19,7 +19,8 @@
 
 演示视频见:
 
--   [文影：实时英语字幕翻译 - 完全离线、免费且开源](https://www.bilibili.com/video/BV1Cs4y1j7Qb/)
+-   v1.0.0: [文影：实时英语字幕翻译 - 完全离线、免费且开源](https://www.bilibili.com/video/BV1Cs4y1j7Qb/)
+-   v1.2.0: [文影更新：支持GPU & 历史字幕](https://www.bilibili.com/video/BV1kC4y1X78Q/)
 
 # 使用说明
 
